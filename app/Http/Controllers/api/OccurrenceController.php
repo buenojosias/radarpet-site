@@ -21,7 +21,7 @@ class OccurrenceController extends Controller
         ->with(['pet.specie','pet.race','location','image'])
         // ->orderByRaw(DB::select("select *,ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS($lat) ) + COS( RADIANS( `latitude` ) )* COS( RADIANS($lat)) * COS( RADIANS( `longitude` ) - RADIANS($long))) * 6380 AS distance from locations having distance <= 20000 order by distance"))
         ->orderBy('id','desc')
-        ->get();
+        ->paginate();
         foreach($occurrences as $occurrence) {
             Carbon::setLocale('pt_BR');
             $occurrence->occurred_at = Carbon::parse($occurrence->occurred_at)->diffForHumans();
