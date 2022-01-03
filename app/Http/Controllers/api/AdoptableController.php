@@ -12,7 +12,9 @@ class AdoptableController extends Controller
 {
     
     public function index() {
-        $adoptables = Adoptable::with(['pet.specie','pet.race','image'])->paginate();
+        $adoptables = Adoptable::where('status', 'active')
+        ->whereHas('pet')->whereHas('image')
+        ->with(['pet.specie','pet.race','image'])->paginate();
         foreach($adoptables as $adoptable) {
             $age['months'] = $adoptable->pet->age;
             $adoptable->years = floor($age['months'] / 12);

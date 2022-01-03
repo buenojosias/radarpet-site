@@ -17,6 +17,7 @@ class OccurrenceController extends Controller
 
     public function index($type) {
         $occurrences = Occurrence::where('type', $type)
+        ->where('status', 'active')
         ->whereHas('pet')->whereHas('location')->whereHas('image')
         ->with(['pet.specie','pet.race','location','image'])
         // ->orderByRaw(DB::select("select *,ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS($lat) ) + COS( RADIANS( `latitude` ) )* COS( RADIANS($lat)) * COS( RADIANS( `longitude` ) - RADIANS($long))) * 6380 AS distance from locations having distance <= 20000 order by distance"))
