@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class HomeController extends Controller
 {
     public function index() {
-        $recents = Occurrence::where('status', 'active')->with(['pet.specie','location','image'])->orderBy('id','desc')->limit(4)->get();
+        $recents = Occurrence::where('status', 'active')->whereHas('pet')->whereHas('location')->whereHas('image')->with(['pet.specie','location','image'])->orderBy('id','desc')->limit(4)->get();
         foreach($recents as $recent) {
             Carbon::setLocale('pt_BR');
             $recent->occurred_at = Carbon::parse($recent->occurred_at)->diffForHumans();
